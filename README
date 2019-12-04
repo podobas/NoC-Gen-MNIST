@@ -1,0 +1,17 @@
+Example automatically generated that eventually will target the NoC-System-Generator.
+
+Requires tensorflow and keras.
+
+To try it, follow the following steps:
+1) edit the train.sh and design your network (currently three-layer mlp networks).
+2) run "make". This will invoke the train.sh script, train the network, and generate the source files for the different processors in a NoC system. It will also create a execution binary on the host.
+3) type "./run" to test the binary. It will infer the MNIST example and should yield *identical* results as during the training session.
+
+This is very much work in progress.
+
+The next steps are:
+1) Get it up and running on the FPGA board using the NoC-System-Generator
+2) Use keras generator JSON and HDF5 file to automatically generate the system. This will require some effort.
+3) Extend to include convolution layer, pooling layer, bypass layers, etc.
+
+Artur Podobas

@@ -1,6 +1,5 @@
 #include<stdio.h>
 #include<stdlib.h>
-#include "mnist.h"
 #include "cpu_0.h"
 
 REAL max (REAL a, REAL b)
@@ -9,6 +8,9 @@ REAL max (REAL a, REAL b)
 struct { REAL val[ 784 ]; } frame_1;
 struct { REAL val[10]; } final_frame;
 
+#if defined(SOFTWARE)
+
+#include "mnist.h"
 
 extern void process1();
 extern void process2();
@@ -36,3 +38,30 @@ int main ( int argc, char **argv)
     }
   fprintf(stderr,"Test accuracy: %f\n",(REAL)correct / (REAL)10000);
 }
+
+#else
+
+#include "image.h"
+
+int main ( int argc, char **argv)
+{
+  int correct = 0;
+  for (int img = 0; img != NUM_IMAGE; img++)
+    {
+      // Copy new image into frame
+      for (int cpy = 0; cpy != 784; cpy++)
+	frame_1.val[cpy] = (REAL)(test_image[img][cpy] / 255.0);
+
+      RUN_LAYERS;
+      
+      // Check results and compare correcntess
+      int largest = 0;
+      for (int i = 0; i != 10; i++)
+	if (final_frame.val[largest] < final_frame.val[i])
+	  largest = i;
+      if (test_label[img] == largest)
+	correct++;
+    }
+  fprintf(stderr,"Test accuracy: %f\n",(REAL)correct / (REAL)NUM_IMAGE);
+}
+#endif

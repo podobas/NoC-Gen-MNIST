@@ -18,7 +18,7 @@ int main ( int argc, char **argv)
   int nImg = atoi(argv[1]);
   FILE *fp = fopen("image.h","w");
   fprintf(fp,"#define NUM_IMAGE %d\n",nImg);
-  fprintf(fp,"unsigned char image[NUM_IMAGE][784] = {");
+  fprintf(fp,"unsigned char test_image[NUM_IMAGE][784] = {");
   for (int img = 0; img != nImg; img++)
     {
       fprintf(fp,"{");
@@ -27,6 +27,13 @@ int main ( int argc, char **argv)
       fprintf(fp,"}%c \n", (img == nImg-1 ? ' ' : ','));
     }
   fprintf(fp,"};\n");
+
+
+  fprintf(fp,"unsigned char test_label[NUM_IMAGE] = {");
+  for (int img = 0; img != nImg; img++)
+    fprintf(fp,"%c %d", (img==0 ? ' ' : ','), test_label_char[img][0]);
+  fprintf(fp,"};\n");
   
+  fclose(fp);
   return 0;
 }
